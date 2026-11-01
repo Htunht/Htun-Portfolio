@@ -1432,7 +1432,12 @@ const Lanyard = ({
     const resize = () => {
       view.width = Math.max(1, container.clientWidth);
       view.height = Math.max(1, container.clientHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      const maxPixelRatio = window.matchMedia('(pointer: coarse)').matches
+        ? 1.25
+        : 2;
+      renderer.setPixelRatio(
+        Math.min(window.devicePixelRatio || 1, maxPixelRatio),
+      );
       renderer.setSize(view.width, view.height, false);
       apply();
       render();

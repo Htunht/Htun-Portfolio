@@ -605,6 +605,8 @@ export const LaserFlow = ({
     probe.height = 1;
     const probeContext = probe.getContext('2d', { willReadFrequently: true });
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    const frameDelay = coarsePointer ? 1000 / 30 : 0;
     const state = {
       time: 0,
       introTime: settingsRef.current.intro && !reduce ? 0 : INTRO_END,
@@ -619,7 +621,9 @@ export const LaserFlow = ({
       reveal: { src: '', ready: false, width: 1, height: 1, image: null as HTMLImageElement | null }
     };
     let raf = 0;
+    let frameTimeout = 0;
     let last = 0;
+    let lastFrame = 0;
     let visible = true;
     let alive = true;
 
@@ -713,8 +717,12 @@ export const LaserFlow = ({
       const height = Math.max(1, container.clientHeight);
       const s = settingsRef.current;
       const baseDpr = Math.min(s.dpr || window.devicePixelRatio || 1, 2);
-      const longest = Math.max(width, height) * baseDpr;
-      const ratio = longest > MAX_RENDER_DIM ? (baseDpr * MAX_RENDER_DIM) / longest : baseDpr;
+      const renderDpr = Math.min(baseDpr, coarsePointer ? 1.25 : 2);
+      const longest = Math.max(width, height) * renderDpr;
+      const ratio =
+        longest > MAX_RENDER_DIM
+          ? (renderDpr * MAX_RENDER_DIM) / longest
+          : renderDpr;
       const pixelWidth = Math.max(1, Math.round(width * ratio));
       const pixelHeight = Math.max(1, Math.round(height * ratio));
       if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
@@ -823,6 +831,7 @@ export const LaserFlow = ({
       const s = settingsRef.current;
       const dt = last ? Math.min(0.05, (now - last) / 1000) : 1 / 60;
       last = now;
+      lastFrame = now;
       const moving = !s.paused && !reduce;
       if (moving) state.time += dt * s.speed;
       const introducing = state.introTime < INTRO_END;
@@ -851,12 +860,27 @@ export const LaserFlow = ({
       const settling =
         Math.abs(state.lens.strength - (s.mouseInteraction && state.pointer.inside ? 1 : 0)) > 0.002 ||
         Math.hypot(state.lens.vx, state.lens.vy) > 0.5;
-      if (moving || introducing || settling) raf = requestAnimationFrame(frame);
+      if (moving || introducing || settling) schedule();
       else last = 0;
     };
 
+    const schedule = () => {
+      if (raf || frameTimeout || !alive || !visible || document.hidden) return;
+      if (frameDelay) {
+        const delay = Math.max(0, frameDelay - (performance.now() - lastFrame));
+        frameTimeout = window.setTimeout(() => {
+          frameTimeout = 0;
+          if (alive && visible && !document.hidden) {
+            raf = requestAnimationFrame(frame);
+          }
+        }, delay);
+      } else {
+        raf = requestAnimationFrame(frame);
+      }
+    };
+
     const wake = () => {
-      if (!raf && alive && visible && !document.hidden) raf = requestAnimationFrame(frame);
+      schedule();
     };
 
     const onPointerMove = (event: PointerEvent) => {
@@ -903,6 +927,7 @@ export const LaserFlow = ({
     return () => {
       alive = false;
       cancelAnimationFrame(raf);
+      window.clearTimeout(frameTimeout);
       wakeRef.current = null;
       resizeObserver.disconnect();
       intersection.disconnect();

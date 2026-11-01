@@ -26,8 +26,8 @@ import letstech3 from "../images/Achievement/Let'stech3.jpg";
 import letstech4 from "../images/Achievement/Let'stech4.jpg";
 import letstech5 from "../images/Achievement/Let'stech5.jpg";
 import letstech6 from "../images/Achievement/Let'stech6.jpg";
-import HHA from "../images/me/me.png";
-import hha from "../images/me/me1.jpg";
+import HHA from "../images/Me/me-achievement.webp";
+import hha from "../images/Me/me1-portrait-preview.webp";
 
 import iot1 from "../images/Achievement/Iot1.jpg";
 import iot2 from "../images/Achievement/Iot2.jpg";

@@ -371,6 +371,8 @@ const Galaxy = ({
     };
     const colors = new Float32Array(MAX_COLORS * 3);
 
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    const frameDelay = coarsePointer ? 1000 / 30 : 0;
     const pointer = { x: 0.5, y: 0.5, inside: false };
     const state = {
       time: 0,
@@ -384,7 +386,9 @@ const Galaxy = ({
       reveal: settingsRef.current.intro && !reduce ? 0 : 1
     };
     let raf = 0;
+    let frameTimeout = 0;
     let last = 0;
+    let lastFrame = 0;
     let visible = true;
 
     const render = () => {
@@ -424,7 +428,7 @@ const Galaxy = ({
       gl.uniform1f(u.uRepulsionStrength, s.repulsionStrength);
       gl.uniform1f(u.uMouseActiveFactor, state.active);
       gl.uniform1f(u.uAutoCenterRepulsion, s.autoCenterRepulsion);
-      gl.uniform1i(u.uLayers, s.layers);
+      gl.uniform1i(u.uLayers, coarsePointer ? Math.min(s.layers, 3) : s.layers);
       gl.uniform3fv(u.uColors, colors);
       gl.uniform1i(u.uColorCount, s.palette.length);
       gl.uniform1f(u.uWarp, state.boost);
@@ -442,6 +446,7 @@ const Galaxy = ({
       const s = settingsRef.current;
       const dt = last ? clamp((now - last) / 1000, 0.0005, 0.05) : 1 / 60;
       last = now;
+      lastFrame = now;
       const motion = s.disableAnimation || reduce ? 0 : 1;
       if (s.intro && !reduce && state.reveal < 1) {
         state.reveal = Math.min(1, state.reveal + dt / INTRO_SECONDS);
@@ -469,19 +474,35 @@ const Galaxy = ({
 
       render();
       const busy = motion > 0 || state.boost > 0 || state.active !== target || state.reveal < 1;
-      if (busy) raf = requestAnimationFrame(frame);
+      if (busy) schedule();
       else last = 0;
     };
 
+    const schedule = () => {
+      if (raf || frameTimeout || !visible || document.hidden) return;
+      if (frameDelay) {
+        const delay = Math.max(0, frameDelay - (performance.now() - lastFrame));
+        frameTimeout = window.setTimeout(() => {
+          frameTimeout = 0;
+          if (visible && !document.hidden) raf = requestAnimationFrame(frame);
+        }, delay);
+      } else {
+        raf = requestAnimationFrame(frame);
+      }
+    };
+
     const wake = () => {
-      if (!raf && visible && !document.hidden) raf = requestAnimationFrame(frame);
+      schedule();
     };
 
     const resize = () => {
       const s = settingsRef.current;
       const width = Math.max(1, container.clientWidth);
       const height = Math.max(1, container.clientHeight);
-      const ratio = Math.min(s.dpr || window.devicePixelRatio || 1, 2);
+      const ratio = Math.min(
+        s.dpr || window.devicePixelRatio || 1,
+        coarsePointer ? 1.25 : 2,
+      );
       canvas.width = Math.max(1, Math.round(width * ratio));
       canvas.height = Math.max(1, Math.round(height * ratio));
       render();
@@ -561,6 +582,7 @@ const Galaxy = ({
 
     return () => {
       cancelAnimationFrame(raf);
+      window.clearTimeout(frameTimeout);
       wakeRef.current = null;
       resizeObserver.disconnect();
       intersection.disconnect();

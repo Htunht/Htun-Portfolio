@@ -1,0 +1,27 @@
+{
+  "planHash": "826b4688dc61154c28787905edbd300229ac26a51fc9c3e46469c885d2da40df",
+  "phase": "baseline",
+  "recordedAtUtc": "2026-10-29T12:50:59.0773433Z",
+  "retryCount": 0,
+  "resetBaseline": false,
+  "complete": true,
+  "result": {
+    "setupSucceeded": false,
+    "setupDurationMs": 3239,
+    "setupFailureOutput": "setup step 0 \u0027npm\u0027 failed (exit=-4048, timedOut=False)\r\nnpm error code EPERM\r\nnpm error syscall unlink\r\nnpm error path D:\\Portfolio\\my-portfolio\\node_modules\\@tailwindcss\\oxide-win32-x64-msvc\\tailwindcss-oxide.win32-x64-msvc.node\r\nnpm error errno -4048\r\nnpm error [Error: EPERM: operation not permitted, unlink \u0027D:\\Portfolio\\my-portfolio\\node_modules\\@tailwindcss\\oxide-win32-x64-msvc\\tailwindcss-oxide.win32-x64-msvc.node\u0027] {\r\nnpm error   errno: -4048,\r\nnpm error   code: \u0027EPERM\u0027,\r\nnpm error   syscall: \u0027unlink\u0027,\r\nnpm error   path: \u0027D:\\\\Portfolio\\\\my-portfolio\\\\node_modules\\\\@tailwindcss\\\\oxide-win32-x64-msvc\\\\tailwindcss-oxide.win32-x64-msvc.node\u0027\r\nnpm error }\r\nnpm error\r\nnpm error The operation was rejected by your operating system.\r\nnpm error It\u0027s possible that the file was already in use (by a text editor or antivirus),\r\nnpm error or that you lack permissions to access it.\r\nnpm error\r\nnpm error If you believe this might be a permissions issue, please double-check the\r\nnpm error permissions of the file and its containing directories, or try running\r\nnpm error the command again as root/Administrator.\r\nnpm error A complete log of this run can be found in: C:\\Users\\Htun Htun Aung\\AppData\\Local\\npm-cache\\_logs\\2026-10-29T12_50_56_438Z-debug-0.log\r\n",
+    "assertions": [],
+    "executions": [
+      {
+        "source": "setup[0]",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\npm.CMD",
+        "args": [
+          "ci"
+        ],
+        "cwd": "D:\\Portfolio\\my-portfolio",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32"
+      }
+    ]
+  }
+}

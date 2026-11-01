@@ -1,75 +1,53 @@
-# React + TypeScript + Vite
+# Htun Htun Aung — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive personal portfolio showcasing my software projects, technical skills, achievements, and certificates.
 
-Currently, two official plugins are available:
+## Built with
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Framer Motion
 
-## React Compiler
+## Featured projects
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Taxi-Meik-Swe** — Taxi-driver car rental marketplace
+- **ဓူဝံကြယ် (Polaris)** — Academic and career guidance platform
+- **Student Pro** — Offline-first digital ledger for class leaders
+- **AURA AI** — AI interview and candidate selection platform
+- **Smart GuardX SSR Rover** — IoT-based surveillance rover
 
-## Expanding the ESLint configuration
+## Run locally
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+git clone https://github.com/Htunht/Htun-Portfolio.git
+cd Htun-Portfolio
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Vite prints a local URL in the terminal after the development server starts.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Available scripts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the development server |
+| `npm run build` | Type-check and create a production build |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint |
+| `npm test` | Run tests |
 
-```
+## Deployment
+
+The project is configured for Vercel. Import the GitHub repository into Vercel and use:
+
+- **Framework preset:** Vite
+- **Build command:** `npm run build`
+- **Output directory:** `dist`
+
+## Contact
+
+- **Email:** [htunhtuna02@gmail.com](mailto:htunhtuna02@gmail.com)
+- **GitHub:** [@Htunht](https://github.com/Htunht)

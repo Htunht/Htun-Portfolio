@@ -101,7 +101,7 @@ export default function Certificates() {
         <div className="mb-8">
           <div className="mb-3 flex items-center gap-4">
             <span className="font-mono text-lg font-semibold text-primary">
-              05.
+              07.
             </span>
             <h2
               id="certificates-heading"

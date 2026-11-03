@@ -243,7 +243,7 @@ export default function Projects() {
           className="mb-10"
         >
           <div className="mb-3 flex items-center gap-4">
-            <span className="font-mono text-lg font-semibold text-primary">07.</span>
+            <span className="font-mono text-lg font-semibold text-primary">05.</span>
             <h2 className="text-2xl font-bold md:text-3xl">
               Some Things I&apos;ve Built
             </h2>

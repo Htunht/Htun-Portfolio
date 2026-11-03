@@ -89,8 +89,8 @@ export default function App() {
         {/* 4. Achievements Gallery */}
         <Achievements />
 
-        {/* 05. Certificates and credentials */}
-        <Certificates />
+        {/* 05. Selected projects */}
+        <Projects />
 
         {/* Resume download */}
         <Resume />
@@ -98,8 +98,8 @@ export default function App() {
         {/* 06. Project Development Process */}
         <DevelopmentProcess />
 
-        {/* 07. Selected projects */}
-        <Projects />
+        {/* 07. Certificates and credentials */}
+        <Certificates />
 
         {/* 08. Footer / Contact with Smooth Entrance */}
         <footer id="contact" className="relative bg-white px-6 py-12 md:py-16">
